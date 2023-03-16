@@ -28,6 +28,19 @@ function getRandomInt(min, max) {
   }
 }
 
-getRandomInt(10, 9);
+const photos = [];
+function objectGenerating () {
+  for(let i = 1; i < 26; i++) {
+    photos.push(
+      {
+        id: i,
+        url: `photos/${i}.jpg`,
+        description: `nice photo number ${i}`,
+        likes: getRandomInt(15, 200),
+        comments: getRandomInt(0, 200)
+      }
+    );
+  }
+}
 
-
+objectGenerating();
