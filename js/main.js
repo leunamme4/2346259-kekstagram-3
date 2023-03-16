@@ -28,8 +28,8 @@ function getRandomInt(min, max) {
   }
 }
 
-const photos = [];
 function objectGenerating () {
+  const photos = [];
   for(let i = 1; i < 26; i++) {
     photos.push(
       {
@@ -41,6 +41,8 @@ function objectGenerating () {
       }
     );
   }
+  return photos;
 }
 
-objectGenerating();
+const photosGenerated = objectGenerating();
+
