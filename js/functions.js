@@ -24,7 +24,7 @@ function getRandomInt(min, max) {
   }
 }
 
-function objectGenerating () {
+function generatePosts () {
   const photos = [];
   for(let i = 1; i < 26; i++) {
     photos.push(
@@ -40,4 +40,4 @@ function objectGenerating () {
   return photos;
 }
 
-export {objectGenerating, getRandomInt, lengthCheck};
+export {generatePosts, getRandomInt, lengthCheck};
