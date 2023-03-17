@@ -1,10 +1,6 @@
-const str = 'Im the best';
-
 function lengthCheck (stringChecked, maxLenghth) {
   return stringChecked.length < maxLenghth;
 }
-
-lengthCheck(str, 4);
 
 function getRandomInt(min, max) {
 
@@ -44,7 +40,4 @@ function objectGenerating () {
   return photos;
 }
 
-// eslint-disable-next-line no-unused-vars
-const photosGenerated = objectGenerating();
-
-
+export {objectGenerating, getRandomInt, lengthCheck};
