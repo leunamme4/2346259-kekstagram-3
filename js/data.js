@@ -1,3 +1,7 @@
+import { generatePosts } from './functions.js';
+
 const str = 'Im the best';
 
-export {str};
+const photos = generatePosts;
+
+export {str, photos};
