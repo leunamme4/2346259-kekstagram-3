@@ -25,4 +25,5 @@ closeImgUploadButton.addEventListener('click', closeImgUpload);
 
 checkForm();
 
+
 export {closeImgUpload};
