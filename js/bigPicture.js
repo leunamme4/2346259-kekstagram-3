@@ -2,7 +2,7 @@ import { checkForm } from './form.js';
 
 const imgUpload = document.querySelector('.img-upload__overlay');
 const fileInput = document.querySelector('.img-upload__input');
-const closeImgUploadButton = document.querySelector('.img-upload__cancel');
+const closeImgUplButton = document.querySelector('.img-upload__cancel');
 
 function closeImgUpload() {
   imgUpload.classList.add('hidden');
@@ -21,7 +21,7 @@ function openImgUpload() {
 }
 
 fileInput.addEventListener('change', openImgUpload);
-closeImgUploadButton.addEventListener('click', closeImgUpload);
+closeImgUplButton.addEventListener('click', closeImgUpload);
 
 checkForm();
 
