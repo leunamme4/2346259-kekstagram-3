@@ -1,7 +1,4 @@
-import { generatePosts } from './functions.js';
+const getDataLink = 'https://27.javascript.pages.academy/kekstagram-simple/data';
+const uploadDataLink = 'https://27.javascript.pages.academy/kekstagram-simple';
 
-const str = 'Im the best';
-
-const photos = generatePosts();
-
-export {str, photos};
+export {getDataLink, uploadDataLink};

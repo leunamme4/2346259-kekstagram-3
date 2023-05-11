@@ -1,14 +1,7 @@
-import {lengthCheck, generatePosts} from './functions.js';
-import { str } from './data.js';
-import './drawPictures.js';
-import './form.js';
-import './bigPicture.js';
-import './photoEditor.js';
+import { bigPicture } from './photoEditor.js';
+import { drawMinis } from './drawPictures.js';
 
-
-lengthCheck(str, 4);
-
-generatePosts();
-
+drawMinis();
+bigPicture();
 
 //Задание 7 часть 2
