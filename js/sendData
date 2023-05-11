@@ -1,4 +1,4 @@
-import { uploadDataLink } from './data.js';
+import { uploadDataLink } from './constants.js';
 
 function EscapeKeyHandler(newMessage) {
   newMessage.remove();

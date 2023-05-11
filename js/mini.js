@@ -1,4 +1,4 @@
-import { getDataLink } from './data.js';
+import { getDataLink } from './constants.js';
 
 const drawMinis = function() {
   fetch(getDataLink).then((response)=> response.json()).then((photos)=> {
