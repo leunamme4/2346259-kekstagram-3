@@ -1,6 +1,8 @@
 import {lengthCheck, generatePosts} from './functions.js';
 import { str } from './data.js';
 import './drawPictures.js';
+import './form.js';
+import './bigPicture.js';
 
 
 lengthCheck(str, 4);
