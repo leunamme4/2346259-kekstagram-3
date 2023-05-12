@@ -1,6 +1,6 @@
-import { getDataLink } from './constants.js';
+import { getDataLink } from './data.js';
 
-const drawMinis = function() {
+const drawPicture = function() {
   fetch(getDataLink).then((response)=> response.json()).then((photos)=> {
     const template = document.querySelector('#picture').content;
     const picture = template.querySelector('.picture');
@@ -20,4 +20,4 @@ const drawMinis = function() {
   }
   ).catch((error) => {throw new Error(error);});
 };
-export {drawMinis};
+export {drawPicture};

@@ -1,11 +1,11 @@
-import { uploadDataLink } from './constants.js';
+import { uploadDataLink } from './data.js';
 
 function EscapeKeyHandler(newMessage) {
   newMessage.remove();
   document.removeEventListener('keydown', EscapeKeyHandler);
 }
 
-function sendData(form, callBackfunc, openImgUpload) {
+function sendData(form, callBackFunction, openImgUpload) {
   const successTemplate = document.querySelector('#success').content;
   const errorTemplate = document.querySelector('#error').content;
   const errorMessage = errorTemplate.querySelector('.error');
@@ -33,7 +33,7 @@ function sendData(form, callBackfunc, openImgUpload) {
       document.addEventListener('keydown', errorEscapeKeyHandler);
       document.body.appendChild(newMessage);
     }
-    callBackfunc(response.ok);
+    callBackFunction(response.ok);
   });
 }
 export {sendData};

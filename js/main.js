@@ -1,7 +1,7 @@
-import { bigPicture } from './photoEditor.js';
-import { drawMinis } from './drawPictures.js';
+import './pictureSettings.js';
+import { drawPicture } from './drawPicture.js';
 
-drawMinis();
-bigPicture();
+drawPicture();
+
 
 //Задание 7 часть 2
