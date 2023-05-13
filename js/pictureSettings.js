@@ -1,17 +1,22 @@
 import { checkForm } from './form.js';
 import { sendData } from './sendData.js';
 
-const dataForm = document.querySelector('.img-upload__form');
 const slider = document.querySelector('.effect-level__slider');
 const effectValue = document.querySelector('.effect-level__value');
-const commentField = document.querySelector('.text__description');
-const imgUpload = document.querySelector('.img-upload__overlay');
-const fileInput = document.querySelector('.img-upload__input');
-const closeImgUploadButton = document.querySelector('.img-upload__cancel');
 const scale = document.querySelector('.scale__control--value');
 const scaleMinusButton = document.querySelector('.scale__control--smaller');
 const scalePlusButton = document.querySelector('.scale__control--bigger');
 const preview = document.querySelector('.img-upload__preview img');
+const commentField = document.querySelector('.text__description');
+const effectButtons = document.querySelectorAll('.effects__radio');
+const body = document.querySelector('body');
+const form = document.getElementById('upload-select-image');
+const closeButton = document.querySelector('.img-upload__cancel');
+const submitButton = document.getElementById('upload-submit');
+const imgUploadForm = document.querySelector('.img-upload__overlay');
+const fileInput = document.querySelector('.img-upload__input');
+const succesPattern = body.querySelector('#success').content.querySelector('.success');
+const errorPattern = body.querySelector('#error').content.querySelector('.error');
 let currentEffect='none';
 
 noUiSlider.create(slider, {
@@ -35,37 +40,6 @@ function updateSlider(min, max, step) {
   });
 }
 
-function closeImgUpload(setDefault = true) {
-  imgUpload.classList.add('hidden');
-  document.removeEventListener('keydown', escapeKeyHandler);
-  if (setDefault) {
-    setScale(100);
-    preview.classList.remove(`effects__preview--${currentEffect}`);
-    preview.classList.add('effects__preview--');
-    currentEffect = 'none';
-    preview.style.filter='';
-    updateSlider(0, 100, 1);
-    commentField.value='';
-    fileInput.value='';
-  }
-}
-
-function escapeKeyHandler(ev) {
-  if (ev.key === 'Escape') {
-    closeImgUpload(true);
-  }
-}
-
-
-function openImgUpload() {
-  imgUpload.classList.remove('hidden');
-  document.addEventListener('keydown', escapeKeyHandler);
-}
-
-fileInput.addEventListener('change', openImgUpload);
-
-closeImgUploadButton.addEventListener('click', closeImgUpload);
-
 function setScale(scl) {
   scale.value=`${String(scl)}%`;
   preview.style.transform=`scale(${scl/100})`;
@@ -84,15 +58,17 @@ function increaseScale() {
 scaleMinusButton.addEventListener('click', decreaseScale);
 scalePlusButton.addEventListener('click', increaseScale);
 
-
-const effectButtons = document.querySelectorAll('.effects__radio');
 function addEffectHandler(button) {
   button.addEventListener('change', ()=> {
     preview.classList.remove(`effects__preview--${currentEffect}`);
     preview.classList.add(`effects__preview--${button.value}`);
     slider.classList.remove('hidden');
-    currentEffect=button.value;
+    currentEffect = button.value;
     switch (currentEffect) {
+      case 'none':
+        slider.classList.add('hidden');
+        preview.style.filter='';
+        break;
       case 'chrome':
         effectValue.value=1;
         updateSlider(0,1,0.1);
@@ -118,15 +94,11 @@ function addEffectHandler(button) {
         updateSlider(1,3,0.1);
         preview.style.filter=`brightness(${effectValue.value})`;
         break;
-      case 'none':
-        slider.classList.add('hidden');
-        preview.style.filter='';
-        break;
     }
   });
 }
 
-for (let i = 0; i<effectButtons.length; i++) {
+for (let i = 0; i < effectButtons.length; i++) {
   addEffectHandler(effectButtons[i]);
 }
 
@@ -151,10 +123,110 @@ slider.noUiSlider.on('slide', ()=> {
   }
 });
 
-dataForm.addEventListener('submit', (evt) => {
+
+function escKeyHandler(evt) {
+  if (evt.key === 'Escape') {
+    form.reset();
+    closeImgUpload();
+  }
+}
+
+function closeImgUpload(setDefault = true) {
+  imgUploadForm.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+  document.removeEventListener('keydown', escKeyHandler);
+  if (setDefault) {
+    setScale(100);
+    preview.classList.remove(`effects__preview--${currentEffect}`);
+    preview.classList.add('effects__preview--');
+    currentEffect = 'none';
+    preview.style.filter='';
+    updateSlider(0, 100, 1);
+    slider.classList.add('hidden');//чтобы сбрасывался при открытии без эффекта после закрытия
+    commentField.value='';
+    fileInput.value='';
+  }
+}
+
+function openImgUpload() {
+  imgUploadForm.classList.toggle('hidden');
+  document.body.classList.toggle('modal-open');
+  document.addEventListener('keydown', escKeyHandler);
+}
+
+fileInput.addEventListener('change', openImgUpload);
+closeButton.addEventListener('click', closeImgUpload);
+
+function getSuccessMessage() {
+  closeImgUpload();
+  form.reset();
+  const successMessage = succesPattern.cloneNode(true);
+  body.appendChild(successMessage);
+  const successButton = successMessage.querySelector('.success__button');
+
+  function closeMessage(){
+    successMessage.remove();
+    document.removeEventListener('keydown', handleKeyDownEvent);
+  }
+
+  function handleKeyDownEvent(evt) {
+    if (evt.key === 'Escape') {
+      closeMessage();
+    }
+  }
+
+  successButton.addEventListener('click', () => {
+    closeMessage();
+  });
+  successMessage.addEventListener('click', (evt) => {
+    if (evt.target.matches('.success')) {
+      closeMessage();
+    }
+  });
+  document.addEventListener('keydown', handleKeyDownEvent);
+}
+
+function getErrorMessage() {
+  const errorMessage = errorPattern.cloneNode(true);
+  body.appendChild(errorMessage);
+  const errorButton = errorMessage.querySelector('.error__button');
+
+  function closeMessage(){
+    errorMessage.remove();
+    document.removeEventListener('keydown', handleKeyDownEvent);
+  }
+
+  function handleKeyDownEvent(evt) {
+    if (evt.key === 'Escape') {
+      closeMessage();
+    }
+  }
+
+  errorButton.addEventListener('click', () => {
+    closeMessage();
+  });
+  errorMessage.addEventListener('click', (evt) => {
+    if (evt.target.matches('.error')) {
+      closeMessage();
+    }
+  });
+  document.addEventListener('keydown', handleKeyDownEvent);
+}
+
+form.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  if (checkForm(dataForm)) {
-    sendData(dataForm, closeImgUpload, openImgUpload);
+  if (checkForm(form)) {
+    submitButton.setAttribute('disabled', '');
+    sendData(
+      new FormData(evt.target),
+      getSuccessMessage,
+      getErrorMessage,
+      () => {
+        closeImgUpload();
+        submitButton.removeAttribute('disabled', '');
+      }
+    );
   }
 });
+
 

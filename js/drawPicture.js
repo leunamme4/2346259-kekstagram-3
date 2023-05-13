@@ -1,23 +1,19 @@
-import { getDataLink } from './data.js';
+import { getData } from './sendData.js';
 
-const drawPicture = function() {
-  fetch(getDataLink).then((response)=> response.json()).then((photos)=> {
-    const template = document.querySelector('#picture').content;
-    const picture = template.querySelector('.picture');
-    const pictures = document.querySelector('.pictures');
-    const fragment = document.createDocumentFragment();
-    for (let i = 0; i < photos.length; i++) {
-      const newPicture = picture.cloneNode(true);
-      const image = newPicture.querySelector('.picture__img');
-      const comments = newPicture.querySelector('.picture__comments');
-      const likes = newPicture.querySelector('.picture__likes');
-      image.src = photos[i].url;
-      comments.textContent= photos[i].comments;
-      likes.textContent= photos[i].likes;
-      fragment.appendChild(newPicture);
-    }
-    pictures.appendChild(fragment);
-  }
-  ).catch((error) => {throw new Error(error);});
-};
-export {drawPicture};
+const imageTemplate = document.querySelector('#picture');
+const picturesList = document.querySelector('.pictures');
+
+function drawPhotos(photos) {
+  const partPicturesList = document.createDocumentFragment();
+  photos.forEach(({url, likes, comments}) => {
+    const photo = imageTemplate.content.cloneNode(true);
+    photo.querySelector('.picture__img').src = url;
+    photo.querySelector('.picture__comments').textContent = comments;
+    photo.querySelector('.picture__likes').textContent = likes;
+    partPicturesList.appendChild(photo);
+  });
+
+  picturesList.append(partPicturesList);
+}
+
+getData(drawPhotos);
